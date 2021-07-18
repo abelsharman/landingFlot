@@ -5,6 +5,8 @@ const fileUpload = require('express-fileupload');
 var cors = require('cors')
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
+const crewing = require("./app/controller/crewing.controller.js");
+const crewing_model = require("./app/models/crewing.model.js");
 
 
 const app = express();
@@ -16,7 +18,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(fileUpload());
 
-const path = __dirname + '/views/';
+const path = __dirname + '/app/views/';
+
 app.use(express.static(path));
 
 var corsOptions = {
@@ -24,7 +27,7 @@ var corsOptions = {
 }
 
 app.get("/", (req, res) => {    
-    res.sendFile(__dirname + "/views/index.html");
+    res.sendFile(path + "index.html");
 });
 
 app.get("/vacancies", (req, res) => {    
@@ -34,6 +37,12 @@ app.get("/vacancies", (req, res) => {
 app.get("/sudy", (req, res) => {    
     res.sendFile(path + "index.html");
 });
+
+app.get("/modify", (req, res) => {    
+    res.sendFile(path + "index.html");
+});
+
+
 
 const transporter = nodemailer.createTransport("SMTP", {
     port: 587,
@@ -45,6 +54,7 @@ const transporter = nodemailer.createTransport("SMTP", {
         }
 });
 
+require("./app/routes/routes.js")(app);
 
 app.post("/send", cors(corsOptions), function(req,res){
     var phone = req.query.phone,
@@ -122,7 +132,30 @@ app.post('/upload', cors(corsOptions), function(req, res) {
 })
 
 
+app.use(cors())
 
+app.post("/addCrewing", function(req, res) {
+    res.header('Access-Control-Allow-Origin', '*')
+
+    const new_crewing = new crewing_model({
+      nameVac: req.body.nameVac,
+      count: req.body.count,
+      text: req.body.text,
+      sudno: req.body.sudno,
+      date: req.body.date,
+      price: req.body.price,
+    });
+  
+    // Save Customer in the database
+    crewing_model.create(new_crewing, (err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while creating the crewing."
+        });
+      else res.send(data);
+    });
+});
 
 
 
