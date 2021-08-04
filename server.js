@@ -7,6 +7,7 @@ var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 const crewing = require("./app/controller/crewing.controller.js");
 const crewing_model = require("./app/models/crewing.model.js");
+const fs = require('fs');
 
 
 const app = express();
@@ -63,7 +64,7 @@ app.post("/send", cors(corsOptions), function(req,res){
 
     const mailData = {
         from: 'abelsharman85@gmail.com', 
-        to: 'contract.mpcllp@gmail.com',    //contract.mpcllp@gmail.com
+        to: 'contract.mpcllp@gmail.com',    //contract.mpcllp@gmail.com 
         subject: 'Новый запрос на ваш сайт',
         text: 'АА',
         html: `<b>Здравствуйте! </b><br> Пользователь с именем ${name} и с номером телефона ${phone} оставил запрос на вашем сайте!<br/>`,
@@ -94,7 +95,7 @@ app.post('/upload', cors(corsOptions), function(req, res) {
     const myFile = req.files.file;
 
     //  mv() method places the file inside public directory
-    myFile.mv(`${__dirname}/public/${myFile.name}`, function (err) {
+    myFile.mv(`${__dirname}/app/views/public/${myFile.name}`, function (err) {
         if (err) {
             console.log(err)
             //return res.status(500).send({ msg: "Error occured" });
@@ -105,28 +106,31 @@ app.post('/upload', cors(corsOptions), function(req, res) {
 
     const mailData = {
         from: 'abelsharman85@gmail.com', 
-        to: 'contract.mpcllp@gmail.com',   
+        to: 'contract.mpcllp@gmail.com',    //contract.mpcllp@gmail.com
         subject: 'Новый запрос на ваш сайт',
         text: 'АА',
-        html: `<b>Здравствуйте! </b><br> Пользователь оставил анкету на вашем сайте!<br/>`,
         attachments: [
             {
-                filename: myFile.name,
-                path: `${__dirname}/public/${myFile.name}`,
-                contentType: 'application/png'
+                filename: `${myFile.name}`,
+                path: `http://localhost:9000/public/${myFile.name}`
             }
-        ]
+        ],
+        html: `<b>Здравствуйте! </b><br> Пользователь оставил анкету на вашем сайте!<br/>`,
+
     };
-    transporter.sendMail(mailData, function (err, info) {
-        if(err){
-            console.log(err)
-            res.send(err)
-        }
-        else{
-          console.log(info);
-          res.send(info)
-        }
-    });
+    setTimeout(()=>{
+        transporter.sendMail(mailData, function (err, info) {
+            if(err){
+                console.log(err)
+                res.send(err)
+            }
+            else{
+              console.log(info);
+              res.send(info)
+            }
+        });
+    }, 1000)
+    
 
 
 })
