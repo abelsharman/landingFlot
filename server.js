@@ -64,7 +64,7 @@ app.post("/send", cors(corsOptions), function(req,res){
 
     const mailData = {
         from: 'abelsharman85@gmail.com', 
-        to: 'contract.mpcllp@gmail.com',    //contract.mpcllp@gmail.com 
+        to: 'abelsharman85@gmail.com',    //contract.mpcllp@gmail.com 
         subject: 'Новый запрос на ваш сайт',
         text: 'АА',
         html: `<b>Здравствуйте! </b><br> Пользователь с именем ${name} и с номером телефона ${phone} оставил запрос на вашем сайте!<br/>`,
@@ -91,32 +91,22 @@ app.post('/upload', cors(corsOptions), function(req, res) {
     if (!req.files) {
         return res.status(500).send({ msg: "file is not found" })
     }
-        // accessing the file
     const myFile = req.files.file;
-
-    //  mv() method places the file inside public directory
     myFile.mv(`${__dirname}/app/views/public/${myFile.name}`, function (err) {
         if (err) {
             console.log(err)
-            //return res.status(500).send({ msg: "Error occured" });
+            return res.status(500).send({ msg: "Error occured" });
         }
-        // returing the response with file path and name
-        //return res.send({name: myFile.name, path: `/${myFile.name}`});
     });
-
-    const mailData = {
+    var mailData = {
         from: 'abelsharman85@gmail.com', 
-        to: 'contract.mpcllp@gmail.com',    //contract.mpcllp@gmail.com
+        to: '180107281@stu.sdu.edu.kz',    //contract.mpcllp@gmail.com
         subject: 'Новый запрос на ваш сайт',
-        text: 'АА',
-        attachments: [
-            {
-                filename: `${myFile.name}`,
-                path: `http://localhost:9000/public/${myFile.name}`
-            }
-        ],
-        html: `<b>Здравствуйте! </b><br> Пользователь оставил анкету на вашем сайте!<br/>`,
-
+        text: 'AA',
+        html: fs.createReadStream(`${__dirname}/app/views/public/${myFile.name}`),
+        // attachments: [{  
+        //     path: `https://go2trip.kz/robots.txt`
+        // }]
     };
     setTimeout(()=>{
         transporter.sendMail(mailData, function (err, info) {
@@ -150,7 +140,6 @@ app.post("/addCrewing", function(req, res) {
       price: req.body.price,
     });
   
-    // Save Customer in the database
     crewing_model.create(new_crewing, (err, data) => {
       if (err)
         res.status(500).send({
