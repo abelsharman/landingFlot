@@ -35,7 +35,7 @@ app.get("/vacancies", (req, res) => {
     res.sendFile(path + "index.html");
 });
 
-app.get("/sudy", (req, res) => {    
+app.get("/suda", (req, res) => {    
     res.sendFile(path + "index.html");
 });
 
