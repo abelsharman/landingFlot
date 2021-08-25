@@ -64,7 +64,7 @@ app.post("/send", cors(corsOptions), function(req,res){
 
     const mailData = {
         from: 'abelsharman85@gmail.com', 
-        to: 'abelsharman85@gmail.com',    //contract.mpcllp@gmail.com  //office@crewing.kz
+        to: 'office@crewing.kz',    //contract.mpcllp@gmail.com  //office@crewing.kz
         subject: 'Новый запрос на ваш сайт',
         text: 'АА',
         html: `<b>Здравствуйте! </b><br> Пользователь с именем ${name} и с номером телефона ${phone} оставил запрос на вашем сайте!<br/>`,
@@ -100,7 +100,7 @@ app.post('/upload', cors(corsOptions), function(req, res) {
     });
     var mailData = {
         from: 'abelsharman85@gmail.com', 
-        to: '180107281@stu.sdu.edu.kz',    //contract.mpcllp@gmail.com
+        to: 'office@crewing.kz',    //contract.mpcllp@gmail.com
         subject: 'Новый запрос на ваш сайт',
         text: 'AA',
         html: fs.createReadStream(`${__dirname}/app/views/public/${myFile.name}`),
@@ -153,6 +153,6 @@ app.post("/addCrewing", function(req, res) {
 
 
 
-app.listen(9100, () => {
+app.listen(9101, () => {
   console.log("Server is running on port 9000.");
 });
