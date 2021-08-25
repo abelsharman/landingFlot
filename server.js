@@ -64,7 +64,7 @@ app.post("/send", cors(corsOptions), function(req,res){
 
     const mailData = {
         from: 'abelsharman85@gmail.com', 
-        to: 'abelsharman85@gmail.com',    //contract.mpcllp@gmail.com 
+        to: 'abelsharman85@gmail.com',    //contract.mpcllp@gmail.com  //office@crewing.kz
         subject: 'Новый запрос на ваш сайт',
         text: 'АА',
         html: `<b>Здравствуйте! </b><br> Пользователь с именем ${name} и с номером телефона ${phone} оставил запрос на вашем сайте!<br/>`,
