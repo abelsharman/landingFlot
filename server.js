@@ -92,19 +92,37 @@ app.post('/upload', cors(corsOptions), function(req, res) {
         return res.status(500).send({ msg: "file is not found" })
     }
     const myFile = req.files.file;
-    myFile.mv(`${__dirname}/app/views/public/${myFile.name}`, function (err) {
+
+    var datetime = new Date().getTime() / 1000;
+
+    let arr = myFile.name.split(".")
+    console.log(arr)
+
+    
+
+    fs.rename(`/${path}/public/${myFile.name}`, `/${path}/public/${datetime}.${arr[arr.length-1]}`, function(err) {
+        if ( err ) console.log('ERROR: ' + err);
+    });
+
+
+
+
+
+    myFile.mv(`${__dirname}/app/views/public/${datetime}.${arr[arr.length-1]}`, function (err) {
         if (err) {
             console.log(err)
             return res.status(500).send({ msg: "Error occured" });
         }
     });
+
+
     var mailData = {
         from: 'abelsharman85@gmail.com', 
         to: '180107281@stu.sdu.edu.kz',    //contract.mpcllp@gmail.com
         subject: 'Новый запрос на ваш сайт',
         text: 'AA',
-        html: `<b>Здравствуйте! </b><br> Пользователь оставил анкету на вашем сайте по <a href="https://periodicals.abelsharman.kz/public/${myFile.name}">ссылке</a>!<br/>`,
-        // attachments: [{  
+        html: `<b>Здравствуйте! </b><br> Пользователь оставил анкету на вашем сайте по <a href="https://periodicals.abelsharman.kz/public/${datetime}.${arr[arr.length-1]}">ссылке</a>!<br/>`,
+        // attachments: [{   // http://localhost:9101/   // https://periodicals.abelsharman.kz/
         //     path: `https://go2trip.kz/robots.txt`
         // }]
     };
