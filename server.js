@@ -64,7 +64,7 @@ app.post("/send", cors(corsOptions), function(req,res){
 
     const mailData = {
         from: 'abelsharman85@gmail.com', 
-        to: '180107281@stu.sdu.edu.kz',    //contract.mpcllp@gmail.com  //office@crewing.kz
+        to: 'office@crewing.kz',    //contract.mpcllp@gmail.com  //office@crewing.kz
         subject: 'Новый запрос на ваш сайт',
         text: 'АА',
         html: `<b>Здравствуйте! </b><br> Пользователь с именем ${name} и с номером телефона ${phone} оставил запрос на вашем сайте!<br/>`,
@@ -118,7 +118,7 @@ app.post('/upload', cors(corsOptions), function(req, res) {
 
     var mailData = {
         from: 'abelsharman85@gmail.com', 
-        to: '180107281@stu.sdu.edu.kz',    //contract.mpcllp@gmail.com
+        to: 'office@crewing.kz',    //contract.mpcllp@gmail.com
         subject: 'Новый запрос на ваш сайт',
         text: 'AA',
         html: `<b>Здравствуйте! </b><br> Пользователь оставил анкету на вашем сайте по <a href="https://periodicals.abelsharman.kz/public/${datetime}.${arr[arr.length-1]}">ссылке</a>!<br/>`,
